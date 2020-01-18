@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "parcel ./src/index.html"
+    "start": "parcel ./src/index.html",
+    "build": "rm -rf dist && parcel build ./src/index.html --public-url /html_olx_parser",
+    "deploy": "gh-pages -d dist"
   },
   "keywords": [],
   "author": "",

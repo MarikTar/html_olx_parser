@@ -18,7 +18,4 @@ const asFetch = async () => {
   }
   // const document = parse();
 };
-
-
-
 asFetch();
