@@ -7,6 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>OLX Parse</title>
 
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="style.sass">
 </head>
 
@@ -14,10 +15,12 @@
   <div class="container">
     <div class="top">
       <input id="top__inp" class="top__inp" type="text">
-      <button id="top__btn" class="top__btn">Search</button>
+      <button id="top__btn" class="top__btn" disabled>Search</button>
     </div>
-    <div class="bottom">
+    <div class="progressbar" id="progressbar"></div>
+    <table class="bottom" id="bottom">
 
+    </table>
     </div>
   </div>
 

@@ -27,6 +27,7 @@
     "sass": "^1.25.0"
   },
   "dependencies": {
-    "parse5": "^5.1.1"
+    "parse5": "^5.1.1",
+    "simple-datatables": "^2.1.9"
   }
 }

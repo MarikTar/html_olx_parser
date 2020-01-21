@@ -9,7 +9,10 @@ export default class OlxParser extends HTMLParser {
 
   async getPagesCount() {
     const arr = await this.parseHTML('a.block.br3.brc8.large.tdnone.lheight24 span');
-    return +arr[arr.length - 1].childNodes[0].rawText;
+    if (arr.length) {
+      return +arr[arr.length - 1].innerHTML;
+    }
+    return 1;
   }
 
   async compresDataPage(i, param) {
@@ -17,8 +20,8 @@ export default class OlxParser extends HTMLParser {
     const tempArr = [];
     data.forEach((elm) => {
       tempArr.push({
-        name: elm.childNodes[0].rawText,
-        href: elm.parentNode.rawAttrs.match(/(?<=href=")(.*)(?=")/g)[0],
+        name: elm.innerText.trim(),
+        href: elm.href,
         view: 0,
       });
     });
@@ -27,11 +30,10 @@ export default class OlxParser extends HTMLParser {
     tempArr.forEach((elm) => {
       viewPromises.push(this.parseHTML('.pdingtop10 strong', elm.href));
     });
-    const res = await Promise.all(viewPromises);
-    const views = res.flat();
+    const views = await Promise.all(viewPromises);
 
     tempArr.forEach((elm, j) => {
-      tempArr[j].view = +views[j].childNodes[0].rawText;
+      tempArr[j].view = +views[j][0].innerHTML;
     });
     this.elmArr.push(...tempArr);
   }
@@ -49,6 +51,7 @@ export default class OlxParser extends HTMLParser {
   }
 
   async extractData(param) {
+    this.elmArr = [];
     const lng = await this.getPagesCount();
     await this.parseMainPages(1, lng, param);
   }
@@ -56,10 +59,12 @@ export default class OlxParser extends HTMLParser {
   async sortLargerToSmaller(param) {
     await this.extractData(param);
     this.elmArr.sort((a, b) => b.view - a.view);
+    return this.elmArr;
   }
 
   async sortSmallerToLarger(param) {
     await this.extractData(param);
     this.elmArr.sort((a, b) => a.view - b.view);
+    return this.elmArr;
   }
 }
